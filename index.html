@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LIONADS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            lion: {
+              50: '#fff8ed',
+              100: '#ffefd4',
+              200: '#ffdba8',
+              300: '#ffc070',
+              400: '#ff9a36',
+              500: '#ff7a0e',
+              600: '#f05d04',
+              700: '#c74405',
+              800: '#9e360c',
+              900: '#7f2e0e',
+              950: '#451405',
+            },
+            dark: {
+              800: '#1a1a1f',
+              850: '#15151a',
+              900: '#0f0f12',
+              950: '#0a0a0c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .sidebar-item { transition: all 0.15s ease; }
+    .sidebar-item:hover { background: rgba(255,122,14,0.12); }
+    .sidebar-item.active { background: rgba(255,122,14,0.2); border-left: 3px solid #ff7a0e; }
+    .card { transition: transform 0.2s, box-shadow 0.2s; }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #15151a; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+    .fade-in { animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-dark-950 text-gray-100 h-screen flex overflow-hidden">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="w-64 bg-dark-900 border-r border-gray-800 flex flex-col shrink-0">
+    <!-- Logo -->
+    <div class="px-5 py-5 border-b border-gray-800 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-lion-500 to-lion-700 flex items-center justify-center text-2xl shadow-lg shadow-lion-500/20">
+        🦁
+      </div>
+      <div>
+        <h1 class="text-lg font-bold tracking-wide text-white">LIONADS</h1>
+        <p class="text-[10px] text-gray-500 uppercase tracking-widest">Dashboard</p>
+      </div>
+    </div>
+
+    <!-- Main Nav -->
+    <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+      <p class="px-3 text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">Principal</p>
+      
+      <button onclick="showSection('minerar')" class="sidebar-item active w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left" data-section="minerar">
+        <span class="text-lg">🔎</span> Minerar
+      </button>
+      <button onclick="showSection('analisar')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left" data-section="analisar">
+        <span class="text-lg">🧠</span> Analisar
+      </button>
+      <button onclick="showSection('modelar')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left" data-section="modelar">
+        <span class="text-lg">🧬</span> Modelar
+      </button>
+      <button onclick="showSection('ofertas')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left" data-section="ofertas">
+        <span class="text-lg">💎</span> Ofertas
+      </button>
+      <button onclick="showSection('copy')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left" data-section="copy">
+        <span class="text-lg">✍️</span> Copy
+      </button>
+      <button onclick="showSection('criativos')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left" data-section="criativos">
+        <span class="text-lg">🎬</span> Criativos
+      </button>
+      <button onclick="showSection('landing')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left" data-section="landing">
+        <span class="text-lg">🌐</span> Landing Pages
+      </button>
+      <button onclick="showSection('tracker')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left" data-section="tracker">
+        <span class="text-lg">📊</span> Tracker
+      </button>
+
+      <div class="my-4 border-t border-gray-800"></div>
+      
+      <p class="px-3 text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">Organização</p>
+      
+      <button onclick="showSection('projetos')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left" data-section="projetos">
+        <span class="text-lg">📁</span> Projetos
+      </button>
+      <button onclick="showSection('favoritos')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left" data-section="favoritos">
+        <span class="text-lg">⭐</span> Favoritos
+      </button>
+      <button onclick="showSection('historico')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left" data-section="historico">
+        <span class="text-lg">🕘</span> Histórico
+      </button>
+
+      <div class="my-4 border-t border-gray-800"></div>
+      
+      <button onclick="showSection('config')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-left" data-section="config">
+        <span class="text-lg">⚙️</span> Configurações
+      </button>
+    </nav>
+
+    <!-- User -->
+    <div class="p-4 border-t border-gray-800">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-lion-600 flex items-center justify-center text-sm font-bold">LA</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium truncate">Lion User</p>
+          <p class="text-xs text-gray-500 truncate">Pro Plan</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-1 flex flex-col overflow-hidden">
+    <!-- Top bar -->
+    <header class="h-14 border-b border-gray-800 bg-dark-900/80 backdrop-blur flex items-center justify-between px-6 shrink-0">
+      <div class="flex items-center gap-3">
+        <h2 id="page-title" class="text-lg font-semibold">🔎 Minerar</h2>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <input type="text" placeholder="Buscar..." class="bg-dark-800 border border-gray-700 rounded-lg pl-9 pr-4 py-1.5 text-sm w-56 focus:outline-none focus:border-lion-500 transition" />
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">🔍</span>
+        </div>
+        <button class="w-9 h-9 rounded-lg bg-dark-800 border border-gray-700 flex items-center justify-center hover:border-lion-500 transition">🔔</button>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <div id="content" class="flex-1 overflow-y-auto p-6">
+      <!-- Sections will be injected here -->
+    </div>
+  </main>
+
+  <script>
+    const sections = {
+      minerar: {
+        title: '🔎 Minerar',
+        html: `
+          <div class="fade-in space-y-6">
+            <div class="flex flex-wrap gap-3 items-end">
+              <div class="flex-1 min-w-[200px]">
+                <label class="block text-xs text-gray-400 mb-1">Nicho / Keyword</label>
+                <input type="text" id="mine-query" placeholder="Ex: emagrecimento, finanças, pet..." class="w-full bg-dark-800 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-lion-500" />
+              </div>
+              <div>
+                <label class="block text-xs text-gray-400 mb-1">Plataforma</label>
+                <select class="bg-dark-800 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-lion-500">
+                  <option>Todas</option>
+                  <option>Facebook Ads</option>
+                  <option>Google Ads</option>
+                  <option>TikTok</option>
+                  <option>Native</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs text-gray-400 mb-1">País</label>
+                <select class="bg-dark-800 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-lion-500">
+                  <option>Brasil</option>
+                  <option>EUA</option>
+                  <option>México</option>
+                  <option>Portugal</option>
+                </select>
+              </div>
+              <button onclick="runMine()" class="bg-lion-600 hover:bg-lion-500 text-white font-medium px-6 py-2.5 rounded-lg text-sm transition shadow-lg shadow-lion-600/20">
+                Minerar Agora
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="mine-results">
+              ${[1,2,3,4,5,6].map(i => `
+                <div class="card bg-dark-800 border border-gray-800 rounded-xl p-4">
+                  <div class="flex items-start justify-between mb-3">
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-lion-600/20 text-lion-400">Hot #${i}</span>
+                    <button class="text-gray-500 hover:text-lion-400">⭐</button>
+                  </div>
+                  <h3 class="font-semibold mb-1">Produto Exemplo ${i}</h3>
+                  <p class="text-xs text-gray-400 mb-3">Nicho: Saúde • CPC estimado R$ 1,20</p>
+                  <div class="flex gap-2 text-xs">
+                    <span class="bg-dark-900 px-2 py-1 rounded">CTR 3.2%</span>
+                    <span class="bg-dark-900 px-2 py-1 rounded">ROAS 4.1x</span>
+                  </div>
+                  <button class="mt-3 w-full text-sm border border-gray-700 hover:border-lion-500 rounded-lg py-1.5 transition">Ver Detalhes</button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `
+      },
+      analisar: {
+        title: '🧠 Analisar',
+        html: `
+          <div class="fade-in space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div class="bg-dark-800 border border-gray-800 rounded-xl p-5">
+                <p class="text-xs text-gray-400">Anúncios Analisados</p>
+                <p class="text-2xl font-bold mt-1">1.248</p>
+                <p class="text-xs text-green-400 mt-1">+12% esta semana</p>
+              </div>
+              <div class="bg-dark-800 border border-gray-800 rounded-xl p-5">
+                <p class="text-xs text-gray-400">Score Médio</p>
+                <p class="text-2xl font-bold mt-1">78</p>
+                <p class="text-xs text-lion-400 mt-1">Bom potencial</p>
+              </div>
+              <div class="bg-dark-800 border border-gray-800 rounded-xl p-5">
+                <p class="text-xs text-gray-400">Nichos Ativos</p>
+                <p class="text-2xl font-bold mt-1">34</p>
+                <p class="text-xs text-gray-400 mt-1">Top: Emagrecimento</p>
+              </div>
+              <div class="bg-dark-800 border border-gray-800 rounded-xl p-5">
+                <p class="text-xs text-gray-400">Alertas</p>
+                <p class="text-2xl font-bold mt-1">5</p>
+                <p class="text-xs text-yellow-400 mt-1">Requer atenção</p>
+              </div>
+            </div>
+            <div class="bg-dark-800 border border-gray-800 rounded-xl p-6">
+              <h3 class="font-semibold mb-4">Análise de Performance</h3>
+              <div class="h-48 flex items-end gap-2">
+                ${[40,65,45,80,55,90,70,85,60,75,95,50].map((h,i) => `
+                  <div class="flex-1 bg-gradient-to-t from-lion-700 to-lion-400 rounded-t opacity-80 hover:opacity-100 transition" style="height:${h}%"></div>
+                `).join('')}
+              </div>
+              <div class="flex justify-between text-xs text-gray-500 mt-2">
+                <span>Jan</span><span>Fev</span><span>Mar</span><span>Abr</span><span>Mai</span><span>Jun</span>
+                <span>Jul</span><span>Ago</span><span>Set</span><span>Out</span><span>Nov</span><span>Dez</span>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      modelar: {
+        title: '🧬 Modelar',
+        html: `
+          <div class="fade-in space-y-6">
+            <p class="text-gray-400 text-sm">Crie e treine modelos de predição de performance de anúncios.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-dark-800 border border-gray-800 rounded-xl p-5 card">
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-10 h-10 rounded-lg bg-purple-600/20 flex items-center justify-center">🧬</div>
+                  <div>
+                    <h3 class="font-semibold">Modelo ROAS Predictor</h3>
+                    <p class="text-xs text-gray-400">v2.1 • Ativo</p>
+                  </div>
+                </div>
+                <p class="text-sm text-gray-300 mb-4">Prevê ROAS com base em histórico de criativos e audiência.</p>
+                <div class="flex gap-2">
+                  <button class="flex-1 text-sm bg-lion-600 hover:bg-lion-500 rounded-lg py-2 transition">Usar</button>
+                  <button class="px-3 text-sm border border-gray-700 rounded-lg hover:border-gray-500">⚙️</button>
+                </div>
+              </div>
+              <div class="bg-dark-800 border border-gray-800 rounded-xl p-5 card">
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-10 h-10 rounded-lg bg-blue-600/20 flex items-center justify-center">🎯</div>
+                  <div>
+                    <h3 class="font-semibold">Audience Scorer</h3>
+                    <p class="text-xs text-gray-400">v1.4 • Ativo</p>
+                  </div>
+                </div>
+                <p class="text-sm text-gray-300 mb-4">Pontua públicos-alvo por potencial de conversão.</p>
+                <div class="flex gap-2">
+                  <button class="flex-1 text-sm bg-lion-600 hover:bg-lion-500 rounded-lg py-2 transition">Usar</button>
+                  <button class="px-3 text-sm border border-gray-700 rounded-lg hover:border-gray-500">⚙️</button>
+                </div>
+              </div>
+              <div class="bg-dark-800 border border-gray-800 rounded-xl p-5 card border-dashed border-2 flex flex-col items-center justify-center min-h-[160px]">
+                <span class="text-3xl mb-2">➕</span>
+                <p class="text-sm text-gray-400">Criar novo modelo</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      ofertas: {
+        title: '💎 Ofertas',
+        html: `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center">
+              <p class="text-sm text-gray-400">Ofertas descobertas e salvas</p>
+              <button class="bg-lion-600 hover:bg-lion-500 text-sm px-4 py-2 rounded-lg transition">+ Nova Oferta</button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="text-left text-gray-400 border-b border-gray-800">
+                    <th class="pb-3 font-medium">Oferta</th>
+                    <th class="pb-3 font-medium">Nicho</th>
+                    <th class="pb-3 font-medium">Comissão</th>
+                    <th class="pb-3 font-medium">Score</th>
+                    <th class="pb-3 font-medium">Status</th>
+                    <th class="pb-3 font-medium"></th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-800">
+                  ${[
+                    ['SlimFit Pro', 'Emagrecimento', 'R$ 87', '92', 'Ativa'],
+                    ['Crypto Mastery', 'Finanças', 'R$ 120', '85', 'Ativa'],
+                    ['PetCare Plus', 'Pets', 'R$ 45', '78', 'Pausada'],
+                    ['English Fluent', 'Educação', 'R$ 95', '88', 'Ativa'],
+                    ['SleepWell', 'Saúde', 'R$ 62', '81', 'Ativa'],
+                  ].map(([nome, nicho, com, score, status]) => `
+                    <tr class="hover:bg-dark-800/50">
+                      <td class="py-3 font-medium">${nome}</td>
+                      <td class="py-3 text-gray-400">${nicho}</td>
+                      <td class="py-3 text-lion-400">${com}</td>
+                      <td class="py-3">${score}</td>
+                      <td class="py-3"><span class="text-xs px-2 py-0.5 rounded-full ${status==='Ativa'?'bg-green-600/20 text-green-400':'bg-yellow-600/20 text-yellow-400'}">${status}</span></td>
+                      <td class="py-3"><button class="text-gray-500 hover:text-white">→</button></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `
+      },
+      copy: {
+        title: '✍️ Copy',
+        html: `
+          <div class="fade-in space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-xs text-gray-400 mb-1">Produto / Oferta</label>
+                  <input type="text" placeholder="Nome do produto" class="w-full bg-dark-800 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-lion-500" />
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-400 mb-1">Tom de voz</label>
+                  <select class="w-full bg-dark-800 border border-gray-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-lion-500">
+                    <option>Persuasivo</option>
+                    <option>Urgente</option>
+                    <option>Educativo</option>
+                    <option>Emocional</option>
+                    <option>Direto</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-400 mb-1">Tipo de copy</label>
+                  <div class="flex flex-wrap gap-2">
+                    ${['Headline','Primary Text','CTA','VSL Script','Email'].map(t => `
+                      <button class="text-xs px-3 py-1.5 rounded-full border border-gray-700 hover:border-lion-500 transition">${t}</button>
+                    `).join('')}
+                  </div>
+                </div>
+                <button class="w-full bg-lion-600 hover:bg-lion-500 py-2.5 rounded-lg font-medium transition">Gerar Copy com IA</button>
+              </div>
+              <div class="bg-dark-800 border border-gray-800 rounded-xl p-5">
+                <div class="flex justify-between items-center mb-3">
+                  <h3 class="font-semibold">Resultado</h3>
+                  <button class="text-xs text-gray-400 hover:text-white">Copiar</button>
+                </div>
+                <div class="text-sm text-gray-300 leading-relaxed space-y-3">
+                  <p class="text-lion-400 font-medium">Headline:</p>
+                  <p>"Descubra o método que já ajudou +12.000 pessoas a emagrecer sem dietas malucas"</p>
+                  <p class="text-lion-400 font-medium mt-4">Primary Text:</p>
+                  <p>Você já tentou de tudo e nada funciona? O problema não é falta de vontade — é o método errado. Com o SlimFit Pro você transforma seu corpo em apenas 21 dias, sem passar fome.</p>
+                  <p class="text-lion-400 font-medium mt-4">CTA:</p>
+                  <p>👉 Quero começar agora →</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      criativos: {
+        title: '🎬 Criativos',
+        html: `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center">
+              <p class="text-sm text-gray-400">Biblioteca de criativos e gerador de anúncios</p>
+              <button class="bg-lion-600 hover:bg-lion-500 text-sm px-4 py-2 rounded-lg transition">+ Gerar Criativo</button>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              ${[1,2,3,4,5,6,7,8].map(i => `
+                <div class="card bg-dark-800 border border-gray-800 rounded-xl overflow-hidden">
+                  <div class="aspect-square bg-gradient-to-br from-gray-800 to-dark-900 flex items-center justify-center text-4xl">
+                    ${['🖼️','🎥','📱','✨'][i%4]}
+                  </div>
+                  <div class="p-3">
+                    <p class="text-sm font-medium truncate">Criativo #${100+i}</p>
+                    <p class="text-xs text-gray-500">UGC • 15s</p>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `
+      },
+      landing: {
+        title: '🌐 Landing Pages',
+        html: `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between items-center">
+              <p class="text-sm text-gray-400">Suas landing pages e templates</p>
+              <button class="bg-lion-600 hover:bg-lion-500 text-sm px-4 py-2 rounded-lg transition">+ Nova LP</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              ${[
+                ['SlimFit VSL', 'Publicada', '2.4k visits'],
+                ['Crypto Webinar', 'Rascunho', '—'],
+                ['Pet Upsell', 'Publicada', '890 visits'],
+                ['Quiz Emagrecimento', 'Publicada', '5.1k visits'],
+              ].map(([nome, status, visits]) => `
+                <div class="card bg-dark-800 border border-gray-800 rounded-xl p-5">
+                  <div class="h-32 bg-dark-900 rounded-lg mb-4 flex items-center justify-center text-3xl border border-gray-800">🌐</div>
+                  <h3 class="font-semibold">${nome}</h3>
+                  <div class="flex justify-between items-center mt-2 text-xs">
+                    <span class="${status==='Publicada'?'text-green-400':'text-yellow-400'}">${status}</span>
+                    <span class="text-gray-500">${visits}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `
+      },
+      tracker: {
+        title: '📊 Tracker',
+        html: `
+          <div class="fade-in space-y-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div class="bg-dark-800 border border-gray-800 rounded-xl p-4">
+                <p class="text-xs text-gray-400">Gasto Hoje</p>
+                <p class="text-xl font-bold">R$ 1.240</p>
+              </div>
+              <div class="bg-dark-800 border border-gray-800 rounded-xl p-4">
+                <p class="text-xs text-gray-400">Receita</p>
+                <p class="text-xl font-bold text-green-400">R$ 4.890</p>
+              </div>
+              <div class="bg-dark-800 border border-gray-800 rounded-xl p-4">
+                <p class="text-xs text-gray-400">ROAS</p>
+                <p class="text-xl font-bold text-lion-400">3.94x</p>
+              </div>
+              <div class="bg-dark-800 border border-gray-800 rounded-xl p-4">
+                <p class="text-xs text-gray-400">Conversões</p>
+                <p class="text-xl font-bold">87</p>
+              </div>
+            </div>
+            <div class="bg-dark-800 border border-gray-800 rounded-xl p-6">
+              <h3 class="font-semibold mb-4">Campanhas Ativas</h3>
+              <div class="space-y-3">
+                ${[
+                  ['FB - SlimFit Lookalike', 'R$ 420', '4.2x', 'Ativa'],
+                  ['TT - Crypto Hook', 'R$ 310', '2.8x', 'Ativa'],
+                  ['GG - Brand Search', 'R$ 180', '6.1x', 'Ativa'],
+                  ['Native - PetCare', 'R$ 95', '1.9x', 'Pausada'],
+                ].map(([nome, gasto, roas, status]) => `
+                  <div class="flex items-center justify-between py-2 border-b border-gray-800 last:border-0">
+                    <div>
+                      <p class="font-medium text-sm">${nome}</p>
+                      <p class="text-xs text-gray-500">${status}</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-sm">${gasto}</p>
+                      <p class="text-xs text-lion-400">${roas}</p>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        `
+      },
+      projetos: {
+        title: '📁 Projetos',
+        html: `
+          <div class="fade-in space-y-6">
+            <div class="flex justify-between">
+              <p class="text-sm text-gray-400">Organize suas campanhas por projeto</p>
+              <button class="bg-lion-600 hover:bg-lion-500 text-sm px-4 py-2 rounded-lg">+ Novo Projeto</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              ${[
+                ['Emagrecimento Q3', '12 ofertas • 8 LPs', 'Ativo'],
+                ['Finanças 2026', '5 ofertas • 3 LPs', 'Ativo'],
+                ['Pets BR', '4 ofertas • 2 LPs', 'Arquivado'],
+              ].map(([nome, info, status]) => `
+                <div class="card bg-dark-800 border border-gray-800 rounded-xl p-5 flex items-center gap-4">
+                  <div class="w-12 h-12 rounded-xl bg-lion-600/20 flex items-center justify-center text-2xl">📁</div>
+                  <div class="flex-1">
+                    <h3 class="font-semibold">${nome}</h3>
+                    <p class="text-xs text-gray-400">${info}</p>
+                  </div>
+                  <span class="text-xs px-2 py-1 rounded-full ${status==='Ativo'?'bg-green-600/20 text-green-400':'bg-gray-600/20 text-gray-400'}">${status}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `
+      },
+      favoritos: {
+        title: '⭐ Favoritos',
+        html: `
+          <div class="fade-in">
+            <p class="text-sm text-gray-400 mb-6">Itens marcados como favoritos</p>
+            <div class="space-y-3">
+              ${['Oferta SlimFit Pro','Criativo UGC #104','LP Quiz Emagrecimento','Copy Headline V2'].map(item => `
+                <div class="flex items-center gap-3 bg-dark-800 border border-gray-800 rounded-xl px-4 py-3">
+                  <span>⭐</span>
+                  <span class="flex-1 text-sm">${item}</span>
+                  <button class="text-gray-500 hover:text-white text-sm">Abrir</button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `
+      },
+      historico: {
+        title: '🕘 Histórico',
+        html: `
+          <div class="fade-in">
+            <p class="text-sm text-gray-400 mb-6">Atividades recentes</p>
+            <div class="space-y-4">
+              ${[
+                ['Gerou copy para SlimFit', 'há 12 min'],
+                ['Minerou nicho "finanças"', 'há 1h'],
+                ['Publicou LP Crypto Webinar', 'há 3h'],
+                ['Atualizou modelo ROAS', 'ontem'],
+                ['Adicionou oferta PetCare', 'ontem'],
+              ].map(([acao, tempo]) => `
+                <div class="flex items-center gap-4">
+                  <div class="w-2 h-2 rounded-full bg-lion-500"></div>
+                  <div class="flex-1">
+                    <p class="text-sm">${acao}</p>
+                    <p class="text-xs text-gray-500">${tempo}</p>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `
+      },
+      config: {
+        title: '⚙️ Configurações',
+        html: `
+          <div class="fade-in max-w-xl space-y-6">
+            <div class="bg-dark-800 border border-gray-800 rounded-xl p-5 space-y-4">
+              <h3 class="font-semibold">Conta</h3>
+              <div>
+                <label class="block text-xs text-gray-400 mb-1">Nome</label>
+                <input type="text" value="Lion User" class="w-full bg-dark-900 border border-gray-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-lion-500" />
+              </div>
+              <div>
+                <label class="block text-xs text-gray-400 mb-1">E-mail</label>
+                <input type="email" value="user@lionads.com" class="w-full bg-dark-900 border border-gray-700 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-lion-500" />
+              </div>
+            </div>
+            <div class="bg-dark-800 border border-gray-800 rounded-xl p-5 space-y-4">
+              <h3 class="font-semibold">Integrações</h3>
+              <div class="flex items-center justify-between">
+                <span class="text-sm">Facebook Ads</span>
+                <span class="text-xs text-green-400">Conectado</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm">Google Ads</span>
+                <span class="text-xs text-green-400">Conectado</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm">TikTok Ads</span>
+                <button class="text-xs text-lion-400 hover:underline">Conectar</button>
+              </div>
+            </div>
+            <div class="bg-dark-800 border border-gray-800 rounded-xl p-5">
+              <h3 class="font-semibold mb-3">Plano</h3>
+              <p class="text-sm text-gray-300">Pro Plan • R$ 197/mês</p>
+              <button class="mt-3 text-sm text-lion-400 hover:underline">Gerenciar assinatura</button>
+            </div>
+          </div>
+        `
+      }
+    };
+
+    function showSection(id) {
+      document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+      const btn = document.querySelector(`[data-section="${id}"]`);
+      if (btn) btn.classList.add('active');
+      
+      const section = sections[id];
+      if (!section) return;
+      
+      document.getElementById('page-title').textContent = section.title;
+      document.getElementById('content').innerHTML = section.html;
+    }
+
+    function runMine() {
+      const q = document.getElementById('mine-query')?.value || 'geral';
+      alert(`Minerando ofertas para: "${q}"...\\n(Simulação — em produção conectaria a APIs reais)`);
+    }
+
+    // Init
+    showSection('minerar');
+  </script>
+</body>
+</html>
